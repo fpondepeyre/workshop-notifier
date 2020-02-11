@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+    database:
+        image: postgres:11-alpine
+        environment:
+            POSTGRES_USER: main
+            POSTGRES_PASSWORD: main
+            POSTGRES_DB: main
+        ports: [5432]
+        networks:
+            - sf-notif
+
+    mailcatcher:
+        image: schickling/mailcatcher
+        networks:
+            - agora_proxynet
+        restart: always
+        ports:
+            - 1025:1025
+            - 1080:1080
+        environment:
+            - MAILCATCHER_PORT=1025
+        networks:
+            - sf-notif
+
+networks:
+    sf-notif:
+        external: true
